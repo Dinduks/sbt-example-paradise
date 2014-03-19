@@ -1,4 +1,5 @@
 @hello
 object Test extends App {
-  println(this.hello)
+  case class Foo(bar: String = "hello")
+  println(hello)
 }

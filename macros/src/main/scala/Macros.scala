@@ -9,10 +9,17 @@ object helloMacro {
     val result = {
       annottees.map(_.tree).toList match {
         case q"object $name extends ..$parents { ..$body }" :: Nil =>
+          val newBody = body.map {
+            case q"case class $name(..$args)" =>
+              q"""
+              case class $name(..$args)
+              """
+            case x => x
+          }
           q"""
             object $name extends ..$parents {
               def hello = "hello"
-              ..$body
+              ..$newBody
             }
           """
       }
